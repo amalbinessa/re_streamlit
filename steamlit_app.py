@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide",
 )
 
-dataset_url = "/T_dataframe.xlsx"
+dataset_url = "./Data/T_dataframe.xlsx"
 
 # read csv from a URL
 
@@ -18,4 +18,4 @@ def get_data() -> pd.DataFrame:
 df = get_data()
 st.title("ماذا يقول عنك محرك البحث قوقل")
 
-
+st.write(df) 
