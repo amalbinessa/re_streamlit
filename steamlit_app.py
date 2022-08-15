@@ -15,5 +15,5 @@ dataset_url ="https://github.com/amalbinessa/re_streamlit/blob/main/Data/T_dataf
 
 # read csv from a URL
 
-df = pd.read_csv(dataset_url,lineterminator='\n')
+df = pd.read_csv(dataset_url,lineterminator='\n', sep=';')
 st.write(df) 
