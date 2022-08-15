@@ -11,7 +11,7 @@ st.set_page_config(
 dataset_url = "/T_dataframe.xlsx"
 
 # read csv from a URL
-@st.experimental_memo
+
 def get_data() -> pd.DataFrame:
     return pd.read_excel(dataset_url)
 
