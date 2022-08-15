@@ -44,4 +44,4 @@ for link in links:
 # List1 
 df = pd.DataFrame(title_link_list, columns =['title', 'link']) 
 df.shape
-st.write(df)
+st.dataframe(df)
