@@ -15,7 +15,7 @@ dataset_url = "./Data/T_dataframe.xlsx"
 
 # read csv from a URL
 
-df = pandas.read_excel('Data/T_dataframe.xlsx')
+df = pandas.read_excel('./Data/T_dataframe.xlsx')
 
 # print whole  data
 st.write(df) 
