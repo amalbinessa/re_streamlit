@@ -18,10 +18,3 @@ def get_data() -> pd.DataFrame:
     return pd.read_csv(dataset_url)
 
 df = get_data()
-
-st.set_page_config(
-    page_title="Real-Time Data Science Dashboard",
-    page_icon="✅",
-    layout="wide",
-)
-
