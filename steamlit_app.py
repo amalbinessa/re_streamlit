@@ -47,3 +47,32 @@ for link in links:
           title_link_list.append(title_list)
 print("Done!")
 
+title_link_content_list = []
+for index , title_link  in enumerate(title_link_list):
+  # url of the website
+  doc = title_link[1]
+  try:
+    # getting response object
+    res = requests.get(doc)
+
+    # Initialize the object with the document
+    soup = BeautifulSoup(res.content, "html.parser")
+  
+    # Get the whole body tag
+    tag = soup.p
+    string_list = []
+    # Print each string recursively
+    for string in tag.strings:
+      print(string)
+      string_list.append(string)
+      joined_string = ''.join(string_list)
+    title_link.append(joined_string)
+    title_link_content_list.append(title_link)
+  except Exception as e: 
+    title_link.append(0)
+    title_link_content_list.append(title_link)
+    pass
+# List1 
+df = pd.DataFrame(title_link_content_list, columns =['title', 'link', 'content']) 
+df.shape
+st.write(df)
