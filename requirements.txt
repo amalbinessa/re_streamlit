@@ -1,7 +1,7 @@
 seaborn
 matplotlib
-streamlit >= 1.10.0
-pandas == 1.2.4
+streamlit==1.10.0
+pandas 
 keybert
 flair
 click<8
