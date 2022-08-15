@@ -3,10 +3,21 @@ import pandas as pd
 import numpy as np
 # add app title
 st.set_page_config(
-    page_title="ماذا يقول عنك محرك البحث قوقل ",
+    page_title="نتائج مخزنة",
     page_icon="✅",
     layout="wide",
 )
-df = pd.read_excel('T_dataframe.xlsx')
+
+
+
+dataset_url = "https://github.com/amalbinessa/re_streamlit/blob/main/T_dataframe.xlsx"
+
+# read csv from a URL
+@st.experimental_memo
+def get_data() -> pd.DataFrame:
+    return pd.read_csv(dataset_url)
+
+df = get_data()
+st.title("ماذا يقول عنك محرك البحث قوقل")
 
 
