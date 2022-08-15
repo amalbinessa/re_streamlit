@@ -16,9 +16,7 @@ dataset_url ="https://github.com/amalbinessa/re_streamlit/blob/main/Data/T_dataf
 # read csv from a URL
 @st.experimental_memo
 def get_data() -> pd.DataFrame:
-    return pd.read_csv(dataset_url , chunksize=Chunk_Size, 
-             error_bad_lines=False,
-             warn_bad_lines=True)
+    return pd.read_csv(dataset_url , chunksize=Chunk_Size, error_bad_lines=False, warn_bad_lines=True)
 
 df = get_data()
 
