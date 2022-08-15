@@ -18,3 +18,5 @@ def get_data() -> pd.DataFrame:
     return pd.read_csv(dataset_url)
 
 df = get_data()
+
+st.write(df) 
