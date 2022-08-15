@@ -9,7 +9,7 @@ st.set_page_config(
 )
 
 
-dataset_url = "T_dataframe.xlsx"
+dataset_url = "./T_dataframe.xlsx"
 
 # read csv from a URL
 @st.experimental_memo
