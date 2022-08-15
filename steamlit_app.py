@@ -10,15 +10,18 @@ st.set_page_config(
 
 st.title("ابحث عنك في قوقل")
 
-
-dataset_url = "./Data/T_dataframe.xlsx"
+dataset_url = "https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv"
 
 # read csv from a URL
+@st.experimental_memo
+def get_data() -> pd.DataFrame:
+    return pd.read_csv(dataset_url)
 
-df = pandas.read_excel('./Data/T_dataframe.xlsx')
+df = get_data()
 
-# print whole  data
-st.write(df) 
-
-
+st.set_page_config(
+    page_title="Real-Time Data Science Dashboard",
+    page_icon="✅",
+    layout="wide",
+)
 
