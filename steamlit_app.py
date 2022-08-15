@@ -10,7 +10,7 @@ st.set_page_config(
 
 st.title("ابحث عنك في قوقل")
 
-dataset_url ="https://github.com/amalbinessa/re_streamlit/blob/main/T_dataframe.csv"
+dataset_url ="https://github.com/amalbinessa/re_streamlit/blob/main/Data/T_dataframe.csv"
 
 
 # read csv from a URL
