@@ -5,5 +5,4 @@ pandas
 keybert
 flair
 click<8
-beautifulsoup4
-requests
+
