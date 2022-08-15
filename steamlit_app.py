@@ -19,7 +19,7 @@ dataset_url ="https://github.com/amalbinessa/re_streamlit/blob/main/Data/T_dataf
 
 import csv
 
-with open('dataset_url') as csv_file:
+with open(dataset_url) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
