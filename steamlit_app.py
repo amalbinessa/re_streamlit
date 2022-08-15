@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import requests
+from bs4 import BeautifulSoup
+import re
+
 # add app title
 st.set_page_config(
     page_title="ماذا يقول عنك محرك البحث قوقل",
@@ -10,13 +14,9 @@ st.set_page_config(
 
 st.title("ابحث عنك في قوقل")
 
-import requests
-from bs4 import BeautifulSoup
-import re
-
 query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
-results = 10
+results = 100
 url = (f"https://www.google.com/search?q={search}&num={results}")
 
 requests_results = requests.get(url)
@@ -39,6 +39,11 @@ for link in links:
           
           print("------")
           title_link_list.append(title_list)
-
-
+          title_list.append(title[0].getText())
+          print(link.get('href').split("?q=")[1].split("&sa=U")[0])
+          title_list.append(link.get('href').split("?q=")[1].split("&sa=U")[0])
+          
+          print("------")
+          title_link_list.append(title_list)
+print("Done!")
 
