@@ -39,13 +39,6 @@ for link in links:
           
           print("------")
           title_link_list.append(title_list)
-          title_list.append(title[0].getText())
-          print(link.get('href').split("?q=")[1].split("&sa=U")[0])
-          title_list.append(link.get('href').split("?q=")[1].split("&sa=U")[0])
-          
-          print("------")
-          title_link_list.append(title_list)
-print("Done!")
 
 
 # List1 
