@@ -15,12 +15,12 @@ st.set_page_config(
 
 st.title("ابحث عنك في قوقل")
 query = st.text_input('search keywords')
-    if query:
-        query = "شركة ثقة لخدمات الأعمال"
+if query:
+    query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
 results = st.text_input('number of result')
-    if results:
-        results = 10
+if results:
+    results = 10
 url = (f"https://www.google.com/search?q={search}&num={results}")
 
 requests_results = requests.get(url)
