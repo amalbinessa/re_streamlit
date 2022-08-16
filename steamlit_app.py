@@ -47,8 +47,6 @@ for link in links:
 
 # List1 
 df = pd.DataFrame(title_link_list, columns =['title', 'link']) 
-# top-level filters
-job_filter = st.selectbox("Select the Job", pd.unique(df["job"]))
 df.shape
 
 
@@ -101,6 +99,10 @@ def get_text_preprocessing(text):
 
   return " ".join(text.split())
 df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
+# top-level filters
+
+job_filter = st.selectbox("Select the Job", pd.unique(df["cleaned_title"]))
+
 st.dataframe(df)
 
    
