@@ -1,9 +1,12 @@
-import streamlit as st
+import streamlit as st # data web app development
 import pandas as pd
 import numpy as np
 import requests
 from bs4 import BeautifulSoup
 import re
+mport time  # to simulate a real time data, time loop
+import plotly.express as px  # interactive charts
+
 
 # add app title
 st.set_page_config(
