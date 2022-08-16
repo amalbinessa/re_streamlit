@@ -17,10 +17,12 @@ st.set_page_config(
 
 
 st.title("ابحث عنك في قوقل")
-query = "شركة ثقة لخدمات الأعمال"
+
 query = st.text_input('search keywords')
 if query:
     query = query #"شركة ثقة لخدمات الأعمال"
+ else :
+    query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
 results = st.text_input('number of result')
 if results:
