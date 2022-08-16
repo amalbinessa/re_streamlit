@@ -159,7 +159,7 @@ fig_col3 = st.columns(1)
 
 with fig_col3:
     st.markdown("Entity list")
-    fig2 = px.histogram(data_frame=df, x="entity_list")
+    fig3 = px.histogram(data_frame=df, x="entity_list")
     st.write(fig3)
 
 
