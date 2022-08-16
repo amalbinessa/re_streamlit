@@ -24,9 +24,8 @@ if query:
 else :
     query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
-results = st.text_input('number of result')
-if results:
-    results = results
+results = 200
+
 print("Top site's name")
 url = (f"https://www.google.com/search?q={search}&num={results}")
 
