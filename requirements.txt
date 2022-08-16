@@ -8,3 +8,4 @@ click<8
 streamlit-aggrid
 plotly
 wordcloud
+ArabicWordCloud
