@@ -21,6 +21,7 @@ search = query.replace(' ', '+')
 results = st.text_input('number of result')
 if results:
     results = results
+print('Top site's name')
 url = (f"https://www.google.com/search?q={search}&num={results}")
 
 requests_results = requests.get(url)
