@@ -111,7 +111,7 @@ st.sidebar.header("Select No. of words you want to display")
 words = st.sidebar.selectbox("No. of words", range(10, 1000, 10))
 
 
-cleaned_title =  df['cleaned_title'].astype(str)
+cleaned_title =  str(df['cleaned_title'])
 #using stopwords to remove extra words
 stopwords = set(STOPWORDS)
 wordcloud = WordCloud(background_color = "white", max_words = words,stopwords = stopwords).generate(cleaned_title)
