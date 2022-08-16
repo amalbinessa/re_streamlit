@@ -9,6 +9,9 @@ import plotly.express as px  # interactive charts
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 
+
+# to remove any warning coming on streamlit web app page
+st.set_option('deprecation.showPyplotGlobalUse', False)
 # add app title
 st.set_page_config(
     page_title="ماذا يقول عنك محرك البحث قوقل",
@@ -111,10 +114,18 @@ st.sidebar.header("Select No. of words you want to display")
 words = st.sidebar.selectbox("No. of words", range(10, 1000, 10))
 
 
+st.write("Word Cloud Plot")
+
 cleaned_title =  str(df['cleaned_title'])
+cleaned_title
+#cleaning the data with regular expression library
+cleaned_text_1 = re.sub('\t', "", cleaned_title)
+cleaned_text_2 = re.split('\n', cleaned_text_1)
+cleaned_text_3 = "".join(cleaned_texts_3)
+
 #using stopwords to remove extra words
 stopwords = set(STOPWORDS)
-wordcloud = WordCloud(background_color = "white", max_words = words,stopwords = stopwords).generate(cleaned_title)
+wordcloud = WordCloud(background_color = "white", max_words = words,stopwords = stopwords).generate(cleaned_text_3)
 
 
 plt.imshow(wordcloud, interpolation = 'bilinear')
