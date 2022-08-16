@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 import re
 import time  # to simulate a real time data, time loop
 import plotly.express as px  # interactive charts
-from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 
 
@@ -113,21 +112,16 @@ df = df[df["cleaned_title"] == title_filter]
 st.sidebar.header("Select No. of words you want to display")
 words = st.sidebar.selectbox("No. of words", range(10, 1000, 10))
 
+# cleaned_text for 
+def get_cleaned_text(text):
+    return ' '.join(text.tolist())
 
-cleaned_text = ' '.join(df['cleaned_title'].tolist())
-#using stopwords to remove extra words
-stopwords = set(STOPWORDS)
-
-from ar_wordcloud import ArabicWordCloud
-awc = ArabicWordCloud(background_color="white")
-wc = awc.from_text(cleaned_text)
-st.write("Word Cloud Plot")
+cleaned_text = get_cleaned_text(df['cleaned_title'])
 
 
-plt.imshow(wordcloud, interpolation = 'bilinear')
-plt.axis("off")
-plt.show()
-st.pyplot()
+# remov stopwordes:
+
+cleaned_stopwords = [[w for w in simple_preprocess(doc, deacc=True) if w not in stopwords.words('arabic')] for doc in cleaned_text]
 
 
 # create two columns for charts
