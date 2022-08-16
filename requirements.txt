@@ -10,4 +10,5 @@ plotly
 wordcloud
 gensim
 nltk
-
+torch==1.6.0
+transformers==3.3.1
