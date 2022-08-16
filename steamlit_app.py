@@ -107,8 +107,12 @@ df = df[df["cleaned_title"] == title_filter]
 # create two columns for charts
 fig_col1, fig_col2 = st.columns(2)
 
-
 with fig_col1:
+    st.markdown("### firest Chart")
+    fig2 = px.histogram(data_frame=df, x="cleaned_title")
+    st.write(fig2)
+
+with fig_col2:
     st.markdown("### Second Chart")
     fig2 = px.histogram(data_frame=df, x="source_site_name")
     st.write(fig2)
