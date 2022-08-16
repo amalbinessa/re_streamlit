@@ -12,11 +12,15 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("ابحث عنك في قوقل")
 
-query = "شركة ثقة لخدمات الأعمال"
+st.title("ابحث عنك في قوقل")
+query = st.text_input('search keywords')
+    if query:
+        query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
-results = 10
+results = st.text_input('number of result')
+    if results:
+        results = 10
 url = (f"https://www.google.com/search?q={search}&num={results}")
 
 requests_results = requests.get(url)
@@ -45,3 +49,5 @@ for link in links:
 df = pd.DataFrame(title_link_list, columns =['title', 'link']) 
 df.shape
 st.dataframe(df)
+
+   
