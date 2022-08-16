@@ -143,7 +143,7 @@ df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title'
 ############################################################################
 
 # create two columns for charts
-fig_col1, fig_col2 = st.columns(3)
+fig_col1, fig_col2 , fig_col3 = st.columns(3)
 
 with fig_col1:
     st.markdown("### firest Chart")
