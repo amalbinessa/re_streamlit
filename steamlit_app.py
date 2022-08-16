@@ -21,8 +21,7 @@ st.set_page_config(
 
 st.title("ابحث عنك في قوقل")
 st. markdown("""
-This app performs Word Cloud
-* **Python libraries:** streamlit, pandas BeautifulSoup, Wordcloud..
+**************************
 """)
 query = st.sidebar.text_input('search keywords')
 if query:
@@ -32,7 +31,7 @@ else :
 search = query.replace(' ', '+')
 results = 200
 
-print("Top site's name")
+
 url = (f"https://www.google.com/search?q={search}&num={results}")
 
 requests_results = requests.get(url)
@@ -70,11 +69,13 @@ def split_text(text):
   
   else:
     return [text,0]
-
-import re
+# text preprocessing 
 df['title'] = df['title'].str.replace('.', '')
+
 df['title'].str.strip()
+
 df['splited_title'] =[split_text(text) for text in df['title']]
+
 df['sub_title'] = [splited_title[0] for splited_title in df['splited_title']]
 
 df['surce_name'] = [splited_title[-1] for splited_title in df['splited_title']]
@@ -103,7 +104,7 @@ def get_text_preprocessing(text):
 df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 # top-level filters
 
-title_filter = st.sidebar.selectbox("Select the title", pd.unique(df["cleaned_title"]))
+title_filter = st.sidebar.selectbox("Select the title", pd.unique(df["source_site_name"]))
 
  # dataframe filter
 df = df[df["cleaned_title"] == title_filter] 
@@ -124,7 +125,6 @@ cleaned_text = get_cleaned_text(df['cleaned_title'])
 
 def text_to_ner_model_line(text):
   text = arabic_NER.get_ner(text)
-  print(text)
   return get_entity_key_value(text)
 def get_entity_key_value(text):
   key__value_list_outer = []
