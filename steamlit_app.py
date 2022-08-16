@@ -116,15 +116,10 @@ words = st.sidebar.selectbox("No. of words", range(10, 1000, 10))
 
 st.write("Word Cloud Plot")
 
-cleaned_title =  str(df['cleaned_title'])
-#cleaning the data with regular expression library
-cleaned_text_1 = re.sub('\t', "", cleaned_title)
-cleaned_text_2 = re.split('\n', cleaned_text_1)
-cleaned_text_3 = "".join(cleaned_text_2)
-
+cleaned_text = ' '.join(df['cleaned_title'].tolist())
 #using stopwords to remove extra words
 stopwords = set(STOPWORDS)
-wordcloud = WordCloud(background_color = "white", max_words = words,stopwords = stopwords).generate(cleaned_text_3)
+wordcloud = WordCloud(background_color = "white", max_words = words,stopwords = stopwords).generate(cleaned_text)
 
 
 plt.imshow(wordcloud, interpolation = 'bilinear')
