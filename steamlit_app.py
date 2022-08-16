@@ -4,7 +4,7 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup
 import re
-mport time  # to simulate a real time data, time loop
+import time  # to simulate a real time data, time loop
 import plotly.express as px  # interactive charts
 
 
