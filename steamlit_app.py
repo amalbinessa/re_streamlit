@@ -104,10 +104,10 @@ def get_text_preprocessing(text):
 df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 # top-level filters
 
-title_filter = st.sidebar.selectbox("Select the title", pd.unique(df["source_site_name"]))
+#title_filter = st.sidebar.selectbox("Select the title", pd.unique(df["source_site_name"]))
 
  # dataframe filter
-df = df[df["cleaned_title"] == title_filter] 
+#df = df[df["cleaned_title"] == title_filter] 
 
 #the option to choose the number of words to be in the word cloud.
 st.sidebar.header("Select No. of words you want to display")
