@@ -119,12 +119,31 @@ def get_cleaned_text(text):
 cleaned_text = get_cleaned_text(df['cleaned_title'])
 
 
-# remov stopwordes:
+##################################### NER ##################################
 
 
+def text_to_ner_model_line(text):
+  text = get_ner(text)
+  print(text)
+  return get_entity_key_value(text)
+def get_entity_key_value(text):
+  key__value_list_outer = []
+  for ner_ in text[0]:
+    for key , value in ner_.items():
+      if '-' in value:
+        #key_value_list_inner = [key,value]
+        key__value_list_outer.append(key)
+
+  return key__value_list_outer
+
+df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title']]
+
+
+
+############################################################################
 
 # create two columns for charts
-fig_col1, fig_col2 = st.columns(2)
+fig_col1, fig_col2 = st.columns(3)
 
 with fig_col1:
     st.markdown("### firest Chart")
@@ -134,6 +153,11 @@ with fig_col1:
 with fig_col2:
     st.markdown("### Second Chart")
     fig2 = px.histogram(data_frame=df, x="source_site_name")
+    st.write(fig2)
+    
+with fig_col3:
+    st.markdown("### 3 Chart")
+    fig2 = px.histogram(data_frame=df, x="entity_list")
     st.write(fig2)
 
 
