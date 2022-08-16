@@ -109,10 +109,6 @@ df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
  # dataframe filter
 #df = df[df["cleaned_title"] == title_filter] 
 
-#the option to choose the number of words to be in the word cloud.
-st.sidebar.header("Select No. of words you want to display")
-words = st.sidebar.selectbox("No. of words", range(10, 1000, 10))
-
 # cleaned_text for 
 def get_cleaned_text(text):
     return ' '.join(text.tolist())
