@@ -154,10 +154,11 @@ with fig_col2:
     st.markdown("### Second Chart")
     fig2 = px.histogram(data_frame=df, x="source_site_name")
     st.write(fig2)
-    
+fig_col3 = st.columns(1)
+
 with fig_col3:
     st.markdown("### 3 Chart")
     fig2 = px.histogram(data_frame=df, x="entity_list")
-    st.write(fig2)
+    st.write(fig3)
 
 
