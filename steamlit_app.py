@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 import re
 import time  # to simulate a real time data, time loop
 import plotly.express as px  # interactive charts
-
+from wordcloud import WordCloud, STOPWORDS
+import matplotlib.pyplot as plt
 
 # add app title
 st.set_page_config(
@@ -17,7 +18,10 @@ st.set_page_config(
 
 
 st.title("ابحث عنك في قوقل")
-
+st. markdown("""
+This app performs Word Cloud
+* **Python libraries:** streamlit, pandas BeautifulSoup, Wordcloud..
+""")
 query = st.text_input('search keywords')
 if query:
     query = query #"شركة ثقة لخدمات الأعمال"
@@ -100,7 +104,24 @@ df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 title_filter = st.selectbox("Select the title", pd.unique(df["cleaned_title"]))
 
  # dataframe filter
-df = df[df["cleaned_title"] == title_filter]  
+df = df[df["cleaned_title"] == title_filter] 
+
+#the option to choose the number of words to be in the word cloud.
+st.sidebar.header("Select No. of words you want to display")
+words = st.sidebar.selectbox("No. of words", range(10, 1000, 10))
+
+
+cleaned_text =  df['cleaned_title'].astype(str)
+#using stopwords to remove extra words
+stopwords = set(STOPWORDS)
+wordcloud = WordCloud(background_color = "white", max_words =
+              words,stopwords = stopwords).generate(cleaned_textss)
+
+
+plt.imshow(wordcloud, interpolation = 'bilinear')
+plt.axis("off")
+plt.show()
+st.pyplot()
 
 
 # create two columns for charts
@@ -115,3 +136,5 @@ with fig_col2:
     st.markdown("### Second Chart")
     fig2 = px.histogram(data_frame=df, x="source_site_name")
     st.write(fig2)
+
+
