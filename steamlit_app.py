@@ -7,7 +7,7 @@ import re
 import time  # to simulate a real time data, time loop
 import plotly.express as px  # interactive charts
 import matplotlib.pyplot as plt
-
+import arabic_NER
 
 # to remove any warning coming on streamlit web app page
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -121,7 +121,6 @@ cleaned_text = get_cleaned_text(df['cleaned_title'])
 
 # remov stopwordes:
 
-cleaned_stopwords = [[w for w in simple_preprocess(doc, deacc=True) if w not in stopwords.words('arabic')] for doc in cleaned_text]
 
 
 # create two columns for charts
