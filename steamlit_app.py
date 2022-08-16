@@ -123,7 +123,7 @@ cleaned_text = get_cleaned_text(df['cleaned_title'])
 
 
 def text_to_ner_model_line(text):
-  text = get_ner(text)
+  text = arabic_NER.get_ner(text)
   print(text)
   return get_entity_key_value(text)
 def get_entity_key_value(text):
