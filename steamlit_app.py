@@ -103,6 +103,5 @@ df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 
 job_filter = st.selectbox("Select the Job", pd.unique(df["cleaned_title"]))
 
-AgGrid(df, height=500, fit_columns_on_grid_load=True)
-
+st.dataframe(df, 300, 200) 
    
