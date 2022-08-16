@@ -47,7 +47,60 @@ for link in links:
 
 # List1 
 df = pd.DataFrame(title_link_list, columns =['title', 'link']) 
+# top-level filters
+job_filter = st.selectbox("Select the Job", pd.unique(df["job"]))
 df.shape
+
+
+# extract information from title and link data  
+df = pd.DataFrame(title_link_list, columns =['title', 'link']) 
+
+def split_text(text):
+  
+  if ' - ' in text:
+    print(text.rsplit('-',1))
+    return text.split('-',1)
+  elif '/' in text:
+    print(text.rsplit('/',1))
+    return text.rsplit('/',1)
+  elif '|' in text:
+    print( text.rsplit('|',1))
+    return text.rsplit('|',1)
+  
+  else:
+    print([text,'0'])
+    return [text,0]
+
+import re
+df['title'] = df['title'].str.replace('.', '')
+df['title'].str.strip()
+df['splited_title'] =[split_text(text) for text in df['title']]
+df['sub_title'] = [splited_title[0] for splited_title in df['splited_title']]
+
+df['surce_name'] = [splited_title[-1] for splited_title in df['splited_title']]
+
+# get source_site_name from link
+
+df['sub_link'] = df['link'].str.split('/', 3)
+
+def get_source_site_name(site_link):
+  site_link[2].split('.')[-2]
+  return site_link[2].split('.')[-2]
+
+df['source_site_name'] = [get_source_site_name(link) for link in df['sub_link']]
+
+# text preprocessing :
+def get_text_preprocessing(text):
+  # text = str(text).strip()
+  # text = text.lstrip()
+  # " ".join(text.split())
+  
+  #clean non Arabic letters and spicial characters  
+
+  text = re.sub('([@A-Za-z0-9_ـــــــــــــ]+)|[^\w\s]|#|http\S+', '', text) # cleaning up
+
+  return " ".join(text.split())
+df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 st.dataframe(df)
 
    
