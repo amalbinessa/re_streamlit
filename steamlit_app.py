@@ -20,9 +20,7 @@ st.set_page_config(
 
 
 st.title("ابحث عنك في قوقل")
-st. markdown("""
-**************************
-""")
+
 query = st.sidebar.text_input('search keywords')
 if query:
     query = query #"شركة ثقة لخدمات الأعمال"
@@ -88,7 +86,7 @@ def get_source_site_name(site_link):
   site_link[2].split('.')[-2]
   return site_link[2].split('.')[-2]
 
-df['source_site_name'] = [get_source_site_name(link) for link in df['sub_link']]
+#df['source_site_name'] = [get_source_site_name(link) for link in df['sub_link']]
 
 # text preprocessing :
 def get_text_preprocessing(text):
@@ -102,9 +100,7 @@ def get_text_preprocessing(text):
 
   return " ".join(text.split())
 df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
-# top-level filters
 
-#title_filter = st.sidebar.selectbox("Select the title", pd.unique(df["source_site_name"]))
 
  # dataframe filter
 #df = df[df["cleaned_title"] == title_filter] 
@@ -148,10 +144,10 @@ with fig_col1:
 
 with fig_col2:
     st.markdown("Source Site Same Chart")
-    fig2 = px.histogram(data_frame=df, x="source_site_name")
+    fig2 = px.histogram(data_frame=df, x="surce_name")
     st.write(fig2)
     
-fig_col3 = st.columns(1)
+fig_col3 ,fig_col4 = st.columns(2)
 
 with fig_col3:
     st.markdown("Entity list")
