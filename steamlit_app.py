@@ -25,7 +25,7 @@ st. markdown("""
 This app performs Word Cloud
 * **Python libraries:** streamlit, pandas BeautifulSoup, Wordcloud..
 """)
-query = st.text_input('search keywords')
+query = st.sidebar.text_input('search keywords')
 if query:
     query = query #"شركة ثقة لخدمات الأعمال"
 else :
@@ -104,7 +104,7 @@ def get_text_preprocessing(text):
 df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 # top-level filters
 
-title_filter = st.selectbox("Select the title", pd.unique(df["cleaned_title"]))
+title_filter = st.sidebar.selectbox("Select the title", pd.unique(df["cleaned_title"]))
 
  # dataframe filter
 df = df[df["cleaned_title"] == title_filter] 
@@ -114,12 +114,14 @@ st.sidebar.header("Select No. of words you want to display")
 words = st.sidebar.selectbox("No. of words", range(10, 1000, 10))
 
 
-st.write("Word Cloud Plot")
-
 cleaned_text = ' '.join(df['cleaned_title'].tolist())
 #using stopwords to remove extra words
 stopwords = set(STOPWORDS)
-wordcloud = WordCloud(background_color = "white", max_words = words,stopwords = stopwords).generate(cleaned_text)
+
+from ar_wordcloud import ArabicWordCloud
+awc = ArabicWordCloud(background_color="white")
+wc = awc.from_text(cleaned_text)
+st.write("Word Cloud Plot")
 
 
 plt.imshow(wordcloud, interpolation = 'bilinear')
