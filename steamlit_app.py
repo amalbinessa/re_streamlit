@@ -26,7 +26,6 @@ url = (f"https://www.google.com/search?q={search}&num={results}")
 requests_results = requests.get(url)
 soup_link = BeautifulSoup(requests_results.content, "html.parser")
 links = soup_link.find_all("a")
-#links_list = []
 title_link_list = []
 
 for link in links:
@@ -36,37 +35,28 @@ for link in links:
 
       if len(title) > 0:
           title_list = []
-          print(title[0].getText())
           title_list.append(title[0].getText())
-          print(link.get('href').split("?q=")[1].split("&sa=U")[0])
           title_list.append(link.get('href').split("?q=")[1].split("&sa=U")[0])
           
-          print("------")
           title_link_list.append(title_list)
 
 
-# List1 
-df = pd.DataFrame(title_link_list, columns =['title', 'link']) 
-df.shape
 
+# add result to dataframe
+df = pd.DataFrame(title_link_list, columns =['title', 'link']) 
 
 # extract information from title and link data  
-df = pd.DataFrame(title_link_list, columns =['title', 'link']) 
 
 def split_text(text):
   
   if ' - ' in text:
-    print(text.rsplit('-',1))
     return text.split('-',1)
   elif '/' in text:
-    print(text.rsplit('/',1))
     return text.rsplit('/',1)
   elif '|' in text:
-    print( text.rsplit('|',1))
     return text.rsplit('|',1)
   
   else:
-    print([text,'0'])
     return [text,0]
 
 import re
@@ -101,7 +91,7 @@ def get_text_preprocessing(text):
 df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 # top-level filters
 
-job_filter = st.selectbox("Select the Job", pd.unique(df["cleaned_title"]))
+title_filter = st.selectbox("Select the title", pd.unique(df["cleaned_title"]))
 
-st.dataframe(df, 300, 200) 
-   
+ # dataframe filter
+df = df[df["cleaned_title"] == title_filter]  
