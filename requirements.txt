@@ -9,8 +9,8 @@ streamlit-aggrid
 plotly
 torch
 transformers
+nltk
 wordcloud
 arabic_reshaper
 python-bidi
-nltk
 ClusterTransformer
