@@ -159,7 +159,6 @@ with fig_col3:
 from wordcloud import WordCloud
 from arabic_reshaper import arabic_reshaper
 from bidi.algorithm import get_display
-import os
 from nltk.corpus import stopwords
 import nltk
 nltk.download('stopwords')
@@ -194,6 +193,9 @@ st.image(wordcloud.to_array())
 
 
 import ClusterTransformer.ClusterTransformer as ctrans
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 
 cr=ctrans.ClusterTransformer()
 model_name='albert-base-v1'
