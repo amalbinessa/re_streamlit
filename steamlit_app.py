@@ -188,3 +188,41 @@ wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_
 
 
 st.image(wordcloud.to_array())
+
+
+
+
+
+import ClusterTransformer.ClusterTransformer as ctrans
+
+cr=ctrans.ClusterTransformer()
+model_name='albert-base-v1'
+
+#Creating an input list of sentences to be clustered
+
+li_sentence = list(df['cleaned_title'])
+
+
+#Declare hyperparameters
+batch_size=2
+max_seq_length=64
+convert_to_numpy=False
+normalize_embeddings=False
+neighborhood_min_size=1
+cutoff_threshold=0.83
+kmeans_max_iter=100
+kmeans_random_state=42
+kmeans_no_clusters=6
+
+
+#Declare the methods : model_inference,neighborhood_detection,kmeans_detection,convert_to_df and plot_cluster with associated hyperparameters
+embeddings=cr.model_inference(li_sentence,batch_size,model_name,max_seq_length,normalize_embeddings,convert_to_numpy)
+output_dict=cr.neighborhood_detection(li_sentence,embeddings,cutoff_threshold,neighborhood_min_size)
+output_kmeans_dict=cr.kmeans_detection(li_sentence,embeddings,kmeans_no_clusters,kmeans_max_iter,kmeans_random_state)
+neighborhood_detection_df=cr.convert_to_df(output_dict)
+kmeans_df=cr.convert_to_df(output_kmeans_dict)
+print(f'DataFrame from neighborhood detection:\n {neighborhood_detection_df}')
+print(f'DataFrame from Kmeans detection:\n {kmeans_df}')
+cr.plot_cluster(neighborhood_detection_df)
+cr.plot_cluster(kmeans_df)
+
