@@ -162,12 +162,12 @@ df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title'
 
 st.header("")
 st.markdown("Search Result Titles Chart")
-fig1 = px.histogram(data_frame=df, x="cleaned_title", width=400, height=200)
+fig1 = px.histogram(data_frame=df, x="cleaned_title", width=1000, height=800)
 st.write(fig1)
 
 st.header("")
 st.markdown("Result Source Site Name Chart")
-fig2 = px.histogram(data_frame=df[df['source_name'] != 0], x="source_name", width=600, height=400)
+fig2 = px.histogram(data_frame=df[df['source_name'] != 0], x="source_name", width=1000, height=800)
 st.write(fig2)
  
 ########################################################
@@ -176,7 +176,7 @@ st.write(fig2)
 
 
 # # remove stop words:
-# stopwords_list = stopwords.words('arabic')
+stopwords_list = stopwords.words('arabic')
 
 # def remove_stopword_withtokenize(text):
 #   text_tokens = word_tokenize(text)
