@@ -146,7 +146,7 @@ st.markdown("Source Site Same Chart")
 fig2 = px.bar(df[df['surce_name'] != 0], x="surce_name")
 st.write(fig2)
     
-st.markdown("Entity list")
+st.markdown("Source Site Name")
 fig3 = px.bar(df[df['source_site_name'] != 'com'], x="source_site_name")
 st.write(fig3)
 ########################################################
