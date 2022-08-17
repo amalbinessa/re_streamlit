@@ -49,7 +49,7 @@ num_of_results = st.sidebar.text_input('حدد/ـي عدد النتائج الت
 if query:
     num_of_results = num_of_results
 else :
-    num_of_results = 10
+    num_of_results = 5
 
 
 
