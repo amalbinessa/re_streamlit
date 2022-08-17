@@ -135,24 +135,19 @@ df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title'
 ############################################################################
 
 # create two columns for charts
-fig_col1, fig_col2  = st.columns(2)
 
-with fig_col1:
-    st.markdown("Cleaned Title Chart")
-    fig2 = px.bar(df, x="cleaned_title", orientation='h')
-    st.write(fig2)
 
-with fig_col2:
-    st.markdown("Source Site Same Chart")
-    fig2 = px.bar(df, x="surce_name", orientation='h')
-    st.write(fig2)
+st.markdown("Cleaned Title Chart")
+fig1 = px.bar(df, x="cleaned_title", orientation='h')
+st.write(fig1)
+
+st.markdown("Source Site Same Chart")
+fig2 = px.bar(df, x="surce_name", orientation='h')
+st.write(fig2)
     
-fig_col3 ,fig_col4 = st.columns(2)
-
-with fig_col3:
-    st.markdown("Entity list")
-    fig3 = px.histogram(data_frame=df, x="entity_list")
-    st.write(fig3)
+st.markdown("Entity list")
+fig3 = px.bar(data_frame=df, x="entity_list",orientation='h')
+st.write(fig3)
 ########################################################
 
 
