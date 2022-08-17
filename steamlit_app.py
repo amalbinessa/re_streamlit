@@ -8,6 +8,15 @@ import time  # to simulate a real time data, time loop
 import plotly.express as px  # interactive charts
 import matplotlib.pyplot as plt
 import arabic_NER
+from wordcloud import WordCloud
+from arabic_reshaper import arabic_reshaper
+from bidi.algorithm import get_display
+from nltk.corpus import stopwords
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+from nltk.tokenize import word_tokenize
+
 
 # to remove any warning coming on streamlit web app page
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -145,28 +154,16 @@ st.write(fig1)
 st.markdown("Source Site Same Chart")
 fig2 = px.bar(df[df['surce_name'] != 0], x="surce_name")
 st.write(fig2)
-    
-st.markdown("Source Site Name")
-fig3 = px.bar(df[df['source_site_name'] != 'com'], x="source_site_name")
-st.write(fig3)
+ 
 ########################################################
 
 
-from wordcloud import WordCloud
-from arabic_reshaper import arabic_reshaper
-from bidi.algorithm import get_display
-from nltk.corpus import stopwords
-import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
-from nltk.tokenize import word_tokenize
 
 
 # remove stop words:
 stopwords_list = stopwords.words('arabic')
 
 def remove_stopword_withtokenize(text):
-  #text = "و كانت رحلة مع كل التقدير "
   text_tokens = word_tokenize(text)
   tokens_without_sw = [word for word in text_tokens if not word in stopwords_list]
   return ' '.join(tokens_without_sw)
