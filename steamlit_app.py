@@ -19,6 +19,12 @@ from nltk.tokenize import word_tokenize
 import ClusterTransformer.ClusterTransformer as ctrans
 import os
 
+
+st.title('لوحة بيانات لنمذجة الفورية لنتائج بحث قوقل ')
+
+st. markdown("""
+______________________________________________________________________________
+""")
 # to remove any warning coming on streamlit web app page
 st.set_option('deprecation.showPyplotGlobalUse', False)
 # add app title
@@ -165,6 +171,10 @@ st.markdown("عناوين نتيجة البحث ")
 fig1 = px.histogram(data_frame=df, x="cleaned_title", width=600, height=400)
 st.write(fig1)
 
+st. markdown("""
+______________________________________________________________________________
+""")
+
 st.header("")
 st.markdown("اسماء المواقع لنتيجة البحث ")
 fig2 = px.histogram(data_frame=df[df['source_name'] != 0], x="source_name", width=600, height=400)
@@ -261,27 +271,34 @@ kmeans_clusters_list = kmeans_df.Cluster.unique()
 
 
 # cluster result in kmeans
-
+st. markdown("""
+____________________ تجميع عناوين نتائج البحث حسب تشابة سياقها __________________________________________________________
+""")
 # nsert containers laid out as side-by-side columns.
 col1, col2, col3 = st.columns(3)
 
 for  index , cluster_num in enumerate(kmeans_clusters_list):
   # group df based on cluster filter :
   wordcloud_result =generate_wordcloud(kmeans_df,cluster_num)
+   
   new_index = index + 1 
   if index == 1 :
     with col1:
-        st.header(f'Topic {index+1} Words :\n ')
+        st.header(f'Topic {index} Words :\n ')
         st.image(wordcloud_result.to_array())
-    
+    st. markdown("""
+______________________________________________________________________________
+""")
   if index == 2 :
     with col1:
-        st.header(f'Topic {index+1} Words :\n ')
+        st.header(f'Topic {index} Words :\n ')
         st.image(wordcloud_result.to_array())
-    
+    st. markdown("""
+______________________________________________________________________________
+""")
   if index == 3 :
     with col1:
-        st.header(f'Topic {index+1} Words :\n ')
+        st.header(f'Topic {index} Words :\n ')
         st.image(wordcloud_result.to_array())
         
 
