@@ -161,7 +161,7 @@ from arabic_reshaper import arabic_reshaper
 from bidi.algorithm import get_display
 import os
 from nltk.corpus import stopwords
-impot nltk
+import nltk
 nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 S# remove stop words:
