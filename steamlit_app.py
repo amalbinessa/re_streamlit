@@ -31,16 +31,23 @@ st.set_page_config(
 
 st.title("ابحث عنك في قوقل")
 
-query = st.sidebar.text_input('search keywords')
+query = st.sidebar.text_input('اضف/ـي  كلمات البحث ')
+
 if query:
-    query = query #"شركة ثقة لخدمات الأعمال"
+    query = query 
 else :
     query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
-results = 10
+
+num_of_results = st.sidebar.text_input('حدد/ـي عدد النتائج التي ترغب في نمذجتها')
+if query:
+    num_of_results = num_of_results
+else :
+    num_of_results = 10
 
 
-url = (f"https://www.google.com/search?q={search}&num={results}")
+
+url = (f"https://www.google.com/search?q={search}&num={num_of_results}")
 
 requests_results = requests.get(url)
 soup_link = BeautifulSoup(requests_results.content, "html.parser")
@@ -111,8 +118,13 @@ def get_text_preprocessing(text):
   return " ".join(text.split())
 df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 
+# remove no values in cleaned_title
 
- # dataframe filter
+df['title_length'] = df.cleaned_title.str.len()
+
+df = df[df.title_length > 1]
+
+# dataframe filter
 #df = df[df["cleaned_title"] == title_filter] 
 
 # cleaned_text for 
@@ -120,6 +132,8 @@ def get_cleaned_text(text):
     return ' '.join(text.tolist())
 
 cleaned_text = get_cleaned_text(df['cleaned_title'])
+# drop unwanted columns
+df =df.drop(columns=['splited_title', 'sub_link' , 'title_length' ])
 
 
 ##################################### NER ##################################
@@ -251,12 +265,9 @@ kmeans_clusters_list = kmeans_df.Cluster.unique()
 for  cluster_num in kmeans_clusters_list:
   # group df based on cluster filter :
   wordcloud_result =generate_wordcloud(kmeans_df,cluster_num) 
-  st.title(f'topic {cluster_num} words :\n {cluster_num}')
+  st.title(f'topic {kmeans_clusters_list.index(cluster_num)} words :\n {cluster_num}')
 
   st.image(wordcloud_result.to_array())
-
-
-
 
 
 
