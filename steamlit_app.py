@@ -161,13 +161,13 @@ df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title'
 # create  charts
 
 st.header("")
-st.markdown("Search Result Titles Chart")
-fig1 = px.histogram(data_frame=df, x="cleaned_title", width=1000, height=800)
+st.markdown("عناوين نتيجة البحث ")
+fig1 = px.histogram(data_frame=df, x="cleaned_title", width=600, height=400)
 st.write(fig1)
 
 st.header("")
-st.markdown("Result Source Site Name Chart")
-fig2 = px.histogram(data_frame=df[df['source_name'] != 0], x="source_name", width=1000, height=800)
+st.markdown("اسماء المواقع لنتيجة البحث ")
+fig2 = px.histogram(data_frame=df[df['source_name'] != 0], x="source_name", width=600, height=400)
 st.write(fig2)
  
 ########################################################
@@ -249,7 +249,7 @@ def generate_wordcloud(df, cluster_num):
   text = ' '.join(text)
   reshaped_text = arabic_reshaper.reshape(text)
   arabic_text = get_display(reshaped_text)
-  wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="black").generate(arabic_text)
+  wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="white").generate(arabic_text)
   return wordcloud
 
 ########################WC_FOR_CLUSTER###################################
