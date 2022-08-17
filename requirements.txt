@@ -14,4 +14,3 @@ arabic_reshaper
 python-bidi
 nltk
 ClusterTransformer
-tokenizers=0.7.0
