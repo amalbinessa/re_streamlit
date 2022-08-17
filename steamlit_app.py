@@ -141,12 +141,13 @@ st.markdown("Cleaned Title Chart")
 fig1 = px.bar(df, x="cleaned_title")
 st.write(fig1)
 
+
 st.markdown("Source Site Same Chart")
-fig2 = px.bar(df, x="surce_name")
+fig2 = px.bar(df[df['surce_name'] != 0], x="surce_name")
 st.write(fig2)
     
 st.markdown("Entity list")
-fig3 = px.bar(data_frame=df, x="entity_list")
+fig3 = px.bar(data_frame=df, x="source_site_name")
 st.write(fig3)
 ########################################################
 
