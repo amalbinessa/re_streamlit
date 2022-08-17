@@ -9,10 +9,6 @@ import plotly.express as px  # interactive charts
 import matplotlib.pyplot as plt
 import arabic_NER
 
-
-# cacheing result
-@st.cache
-
 # to remove any warning coming on streamlit web app page
 st.set_option('deprecation.showPyplotGlobalUse', False)
 # add app title
