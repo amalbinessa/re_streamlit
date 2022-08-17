@@ -139,12 +139,12 @@ fig_col1, fig_col2  = st.columns(2)
 
 with fig_col1:
     st.markdown("Cleaned Title Chart")
-    fig2 = px.histogram(data_frame=df, x="cleaned_title")
+    fig2 = px.histogram(data_frame=df, x="cleaned_title", orientation='h')
     st.write(fig2)
 
 with fig_col2:
     st.markdown("Source Site Same Chart")
-    fig2 = px.histogram(data_frame=df, x="surce_name")
+    fig2 = px.histogram(data_frame=df, x="surce_name", orientation='h')
     st.write(fig2)
     
 fig_col3 ,fig_col4 = st.columns(2)
