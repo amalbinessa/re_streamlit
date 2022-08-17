@@ -36,8 +36,8 @@ st.set_page_config(
 
 
 st.title("ابحث عنك في قوقل")
-
-query = st.sidebar.text_input('اضف/ـي  كلمات البحث ')
+st.sidebar.header("اكتب الكلمات")
+query = st.sidebar.text_input('  اضف/ـي كلمات البحث , مثال :شركة ثقة لخدمات الأعمال ')
 
 if query:
     query = query 
@@ -45,7 +45,10 @@ else :
     query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
 
-num_of_results = st.sidebar.text_input('حدد/ـي عدد النتائج التي ترغب في نمذجتها')
+
+st.sidebar.header("اكتب عدد النتائج")
+num_of_results = st.sidebar.selectbox("حدد/ـي عدد النتائج التي ترغب في نمذجتها", range(10, 20, 50))
+
 if query:
     num_of_results = num_of_results
 else :
@@ -300,20 +303,6 @@ ______________________________________________________________________________
     with col1:
         st.header(f'Topic {index} Words :\n ')
         st.image(wordcloud_result.to_array())
-        
-
-  
-  
-
-  
-
-
-
-
-
-
-
-
-
-
-
+st. markdown("""
+__________________________* ** جميع الحقوق محفوظة@امل بن عيسى **____________________________________________________
+""")        
