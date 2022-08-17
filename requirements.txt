@@ -9,3 +9,7 @@ streamlit-aggrid
 plotly
 torch
 transformers
+wordcloud
+arabic_reshaper
+python-bidi
+nltk
