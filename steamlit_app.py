@@ -93,7 +93,7 @@ df['splited_title'] =[split_text(text) for text in df['title']]
 
 df['sub_title'] = [splited_title[0] for splited_title in df['splited_title']]
 
-df['surce_name'] = [splited_title[-1] for splited_title in df['splited_title']]
+df['source_name'] = [splited_title[-1] for splited_title in df['splited_title']]
 
 # get source_site_name from link
 
@@ -158,16 +158,16 @@ df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title'
 
 ############################################################################
 
-# create two columns for charts
+# create  charts
 
-
-st.markdown("Cleaned Title Chart")
-fig1 = px.bar(df, x="cleaned_title")
+st.header("")
+st.markdown("Search Result Titles Chart")
+fig1 = px.bar_chart(df, x="cleaned_title", use_container_width=True)
 st.write(fig1)
 
-
-st.markdown("Source Site Same Chart")
-fig2 = px.bar(df[df['surce_name'] != 0], x="surce_name")
+st.header("")
+st.markdown("Result Source Site Name Chart")
+fig2 = px.bar_chart(df[df['source_name'] != 0], x="source_name")
 st.write(fig2)
  
 ########################################################
@@ -175,23 +175,23 @@ st.write(fig2)
 
 
 
-# remove stop words:
-stopwords_list = stopwords.words('arabic')
+# # remove stop words:
+# stopwords_list = stopwords.words('arabic')
 
-def remove_stopword_withtokenize(text):
-  text_tokens = word_tokenize(text)
-  tokens_without_sw = [word for word in text_tokens if not word in stopwords_list]
-  return ' '.join(tokens_without_sw)
+# def remove_stopword_withtokenize(text):
+#   text_tokens = word_tokenize(text)
+#   tokens_without_sw = [word for word in text_tokens if not word in stopwords_list]
+#   return ' '.join(tokens_without_sw)
 
 
-df['cleaned_title_without_stopword'] = [remove_stopword_withtokenize(text)for text in df['cleaned_title'] ] 
-text = df['cleaned_title_without_stopword']
-text = [''.join(sentence) for sentence in text]
-text = ' '.join(text)
-reshaped_text = arabic_reshaper.reshape(text)
-arabic_text = get_display(reshaped_text)
-wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="white").generate(arabic_text)
-st.image(wordcloud.to_array())
+# df['cleaned_title_without_stopword'] = [remove_stopword_withtokenize(text)for text in df['cleaned_title'] ] 
+# text = df['cleaned_title_without_stopword']
+# text = [''.join(sentence) for sentence in text]
+# text = ' '.join(text)
+# reshaped_text = arabic_reshaper.reshape(text)
+# arabic_text = get_display(reshaped_text)
+# wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="black").generate(arabic_text)
+# st.image(wordcloud.to_array())
 
 
 
@@ -249,7 +249,7 @@ def generate_wordcloud(df, cluster_num):
   text = ' '.join(text)
   reshaped_text = arabic_reshaper.reshape(text)
   arabic_text = get_display(reshaped_text)
-  wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="white").generate(arabic_text)
+  wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="black").generate(arabic_text)
   return wordcloud
 
 ########################WC_FOR_CLUSTER###################################
@@ -262,13 +262,39 @@ kmeans_clusters_list = kmeans_df.Cluster.unique()
 
 # cluster result in kmeans
 
+# nsert containers laid out as side-by-side columns.
+col1, col2, col3 = st.columns(3)
+
 for  index , cluster_num in enumerate(kmeans_clusters_list):
   # group df based on cluster filter :
   wordcloud_result =generate_wordcloud(kmeans_df,cluster_num)
   new_index = index + 1 
-  st.title(f'topic {index+1} words :\n ')
+  if index == 1 :
+    with col1:
+    st.header(f'Topic {index+1} Words :\n ')
+    st.image(wordcloud_result.to_array())
+    
+  if index == 2 :
+    with col1:
+    st.header(f'Topic {index+1} Words :\n ')
+    st.image(wordcloud_result.to_array())
+    
+  if index == 3 :
+    with col1:
+    st.header(f'Topic {index+1} Words :\n ')
+    st.image(wordcloud_result.to_array())
+        
 
-  st.image(wordcloud_result.to_array())
+  
+  
+
+  
+
+
+
+
+
+
 
 
 
