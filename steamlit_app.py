@@ -262,10 +262,11 @@ kmeans_clusters_list = kmeans_df.Cluster.unique()
 
 # cluster result in kmeans
 
-for  cluster_num in kmeans_clusters_list:
+for  index , cluster_num in enumerate(kmeans_clusters_list):
   # group df based on cluster filter :
-  wordcloud_result =generate_wordcloud(kmeans_df,cluster_num) 
-  st.title(f'topic {kmeans_clusters_list.index(cluster_num)} words :\n {cluster_num}')
+  wordcloud_result =generate_wordcloud(kmeans_df,cluster_num)
+  new_index = index + 1 
+  st.title(f'topic {index+1} words :\n ')
 
   st.image(wordcloud_result.to_array())
 
