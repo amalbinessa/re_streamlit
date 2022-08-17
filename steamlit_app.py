@@ -153,5 +153,35 @@ with fig_col3:
     st.markdown("Entity list")
     fig3 = px.histogram(data_frame=df, x="entity_list")
     st.write(fig3)
+########################################################
 
 
+from wordcloud import WordCloud
+from arabic_reshaper import arabic_reshaper
+from bidi.algorithm import get_display
+import os
+from nltk.corpus import stopwords
+nltk.download('punkt')
+from nltk.tokenize import word_tokenize
+# remove stop words:
+
+stopwords_list = stopwords.words('arabic')
+
+def remove_stopword_withtokenize(text):
+  #text = "و كانت رحلة مع كل التقدير "
+  text_tokens = word_tokenize(text)
+  tokens_without_sw = [word for word in text_tokens if not word in stopwords_list]
+  return ' '.join(tokens_without_sw)
+
+
+df['cleaned_title_without_stopword'] = [remove_stopword_withtokenize(text)for text in df['cleaned_title'] ] 
+text = df['cleaned_title_without_stopword']
+text = [''.join(sentence) for sentence in text]
+text = ' '.join(text)
+reshaped_text = arabic_reshaper.reshape(text)
+arabic_text = get_display(reshaped_text)
+wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="white").generate(arabic_text)
+#wordcloud.to_image()
+
+
+st.image(wordcloud.to_array())
