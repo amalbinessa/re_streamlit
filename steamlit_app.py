@@ -223,7 +223,4 @@ neighborhood_detection_df=cr.convert_to_df(output_dict)
 kmeans_df=cr.convert_to_df(output_kmeans_dict)
 print(f'DataFrame from neighborhood detection:\n {neighborhood_detection_df}')
 print(f'DataFrame from Kmeans detection:\n {kmeans_df}')
-cr.plot_cluster(neighborhood_detection_df)
-cr.plot_cluster(kmeans_df)
-
 
