@@ -16,7 +16,8 @@ import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
 from nltk.tokenize import word_tokenize
-
+import ClusterTransformer.ClusterTransformer as ctrans
+import os
 
 # to remove any warning coming on streamlit web app page
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -36,7 +37,7 @@ if query:
 else :
     query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
-results = 200
+results = 10
 
 
 url = (f"https://www.google.com/search?q={search}&num={results}")
@@ -176,20 +177,15 @@ text = ' '.join(text)
 reshaped_text = arabic_reshaper.reshape(text)
 arabic_text = get_display(reshaped_text)
 wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="white").generate(arabic_text)
-#wordcloud.to_image()
-
-
 st.image(wordcloud.to_array())
 
 
 
 
 
-import ClusterTransformer.ClusterTransformer as ctrans
-import os
+# stop TOKENIZERS_PARALLELISM
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
-
 cr=ctrans.ClusterTransformer()
 model_name='albert-base-v1'
 
@@ -212,10 +208,57 @@ kmeans_no_clusters=6
 
 #Declare the methods : model_inference,neighborhood_detection,kmeans_detection,convert_to_df and plot_cluster with associated hyperparameters
 embeddings=cr.model_inference(li_sentence,batch_size,model_name,max_seq_length,normalize_embeddings,convert_to_numpy)
-output_dict=cr.neighborhood_detection(li_sentence,embeddings,cutoff_threshold,neighborhood_min_size)
+#output_dict=cr.neighborhood_detection(li_sentence,embeddings,cutoff_threshold,neighborhood_min_size)
 output_kmeans_dict=cr.kmeans_detection(li_sentence,embeddings,kmeans_no_clusters,kmeans_max_iter,kmeans_random_state)
-neighborhood_detection_df=cr.convert_to_df(output_dict)
+#neighborhood_detection_df=cr.convert_to_df(output_dict)
 kmeans_df=cr.convert_to_df(output_kmeans_dict)
-print(f'DataFrame from neighborhood detection:\n {neighborhood_detection_df}')
-print(f'DataFrame from Kmeans detection:\n {kmeans_df}')
+
+
+
+
+
+
+###################WC_FOR_CLUSTER#############################
+
+def remove_stopword_withtokenize_for_clusters(text):
+  text_tokens = word_tokenize(text)
+  tokens_without_sw = [word for word in text_tokens if not word in stopwords_list]
+  return ' '.join(tokens_without_sw)
+def generate_wordcloud(df, cluster_num):
+
+  df_grouped_by_cluster = df[df['Cluster'] == cluster_num]
+  df_grouped_by_cluster['text_without_stopword'] = [remove_stopword_withtokenize_for_clusters(text) for text in df_grouped_by_cluster['Text'] ] 
+  
+  text = df_grouped_by_cluster['text_without_stopword']
+
+  text = [''.join(sentence) for sentence in text]
+  text = ' '.join(text)
+  reshaped_text = arabic_reshaper.reshape(text)
+  arabic_text = get_display(reshaped_text)
+  wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="white").generate(arabic_text)
+  return wordcloud
+
+########################WC_FOR_CLUSTER###################################
+
+# fined number of clusters
+kmeans_clusters_list = kmeans_df.Cluster.unique()
+#neighborhood_detection_clusters_list = neighborhood_detection_df.Cluster.unique()
+
+
+
+# cluster result in kmeans
+
+for  cluster_num in kmeans_clusters_list:
+  # group df based on cluster filter :
+  wordcloud_result =generate_wordcloud(kmeans_df,cluster_num) 
+  st.title(f'topic {cluster_num} words :\n {cluster_num}')
+
+  st.image(wordcloud_result.to_array())
+
+
+
+
+
+
+
 
