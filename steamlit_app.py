@@ -86,7 +86,7 @@ def get_source_site_name(site_link):
   site_link[2].split('.')[-2]
   return site_link[2].split('.')[-2]
 
-#df['source_site_name'] = [get_source_site_name(link) for link in df['sub_link']]
+df['source_site_name'] = [get_source_site_name(link) for link in df['sub_link']]
 
 # text preprocessing :
 def get_text_preprocessing(text):
@@ -147,7 +147,7 @@ fig2 = px.bar(df[df['surce_name'] != 0], x="surce_name")
 st.write(fig2)
     
 st.markdown("Entity list")
-fig3 = px.bar(data_frame=df, x="source_site_name")
+fig3 = px.bar(df[df['surce_name'] != 'com'], x="source_site_name")
 st.write(fig3)
 ########################################################
 
