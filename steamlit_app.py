@@ -271,18 +271,18 @@ for  index , cluster_num in enumerate(kmeans_clusters_list):
   new_index = index + 1 
   if index == 1 :
     with col1:
-    st.header(f'Topic {index+1} Words :\n ')
-    st.image(wordcloud_result.to_array())
+        st.header(f'Topic {index+1} Words :\n ')
+        st.image(wordcloud_result.to_array())
     
   if index == 2 :
     with col1:
-    st.header(f'Topic {index+1} Words :\n ')
-    st.image(wordcloud_result.to_array())
+        st.header(f'Topic {index+1} Words :\n ')
+        st.image(wordcloud_result.to_array())
     
   if index == 3 :
     with col1:
-    st.header(f'Topic {index+1} Words :\n ')
-    st.image(wordcloud_result.to_array())
+        st.header(f'Topic {index+1} Words :\n ')
+        st.image(wordcloud_result.to_array())
         
 
   
