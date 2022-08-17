@@ -162,12 +162,12 @@ df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title'
 
 st.header("")
 st.markdown("Search Result Titles Chart")
-fig1 = px.bar_chart(df, x="cleaned_title", width=400, height=200)
+fig1 = st.bar_chart(df, x="cleaned_title", width=400, height=200)
 st.write(fig1)
 
 st.header("")
 st.markdown("Result Source Site Name Chart")
-fig2 = px.bar_chart(df[df['source_name'] != 0], x="source_name", width=600, height=400)
+fig2 = st.bar_chart(df[df['source_name'] != 0], x="source_name", width=600, height=400)
 st.write(fig2)
  
 ########################################################
