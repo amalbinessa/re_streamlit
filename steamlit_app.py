@@ -164,8 +164,9 @@ from nltk.corpus import stopwords
 import nltk
 nltk.download('punkt')
 from nltk.tokenize import word_tokenize
-S# remove stop words:
 
+
+# remove stop words:
 stopwords_list = stopwords.words('arabic')
 
 def remove_stopword_withtokenize(text):
