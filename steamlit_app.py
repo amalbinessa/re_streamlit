@@ -16,15 +16,8 @@ import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
 from nltk.tokenize import word_tokenize
-import ClusterTransformer.ClusterTransformer as ctrans
-import os
 
 
-st.title('لوحة بيانات لنمذجة الفورية لنتائج بحث قوقل ')
-
-st. markdown("""
-______________________________________________________________________________
-""")
 # to remove any warning coming on streamlit web app page
 st.set_option('deprecation.showPyplotGlobalUse', False)
 # add app title
@@ -36,27 +29,17 @@ st.set_page_config(
 
 
 st.title("ابحث عنك في قوقل")
-st.sidebar.header("اكتب الكلمات")
-query = st.sidebar.text_input('  اضف/ـي كلمات البحث , مثال :شركة ثقة لخدمات الأعمال ')
 
+query = st.sidebar.text_input('search keywords')
 if query:
-    query = query 
+    query = query #"شركة ثقة لخدمات الأعمال"
 else :
     query = "شركة ثقة لخدمات الأعمال"
 search = query.replace(' ', '+')
+results = 200
 
 
-st.sidebar.header("اكتب عدد النتائج")
-num_of_results = st.sidebar.selectbox("حدد/ـي عدد النتائج التي ترغب في نمذجتها", range(10, 20, 50))
-
-if query:
-    num_of_results = num_of_results
-else :
-    num_of_results = 5
-
-
-
-url = (f"https://www.google.com/search?q={search}&num={num_of_results}")
+url = (f"https://www.google.com/search?q={search}&num={results}")
 
 requests_results = requests.get(url)
 soup_link = BeautifulSoup(requests_results.content, "html.parser")
@@ -102,7 +85,7 @@ df['splited_title'] =[split_text(text) for text in df['title']]
 
 df['sub_title'] = [splited_title[0] for splited_title in df['splited_title']]
 
-df['source_name'] = [splited_title[-1] for splited_title in df['splited_title']]
+df['surce_name'] = [splited_title[-1] for splited_title in df['splited_title']]
 
 # get source_site_name from link
 
@@ -127,13 +110,8 @@ def get_text_preprocessing(text):
   return " ".join(text.split())
 df['cleaned_title'] = [get_text_preprocessing(text) for text in df['sub_title']]
 
-# remove no values in cleaned_title
 
-df['title_length'] = df.cleaned_title.str.len()
-
-df = df[df.title_length > 1]
-
-# dataframe filter
+ # dataframe filter
 #df = df[df["cleaned_title"] == title_filter] 
 
 # cleaned_text for 
@@ -141,8 +119,6 @@ def get_cleaned_text(text):
     return ' '.join(text.tolist())
 
 cleaned_text = get_cleaned_text(df['cleaned_title'])
-# drop unwanted columns
-df =df.drop(columns=['splited_title', 'sub_link' , 'title_length' ])
 
 
 ##################################### NER ##################################
@@ -167,20 +143,16 @@ df['entity_list'] = [text_to_ner_model_line(text) for text in df['cleaned_title'
 
 ############################################################################
 
-# create  charts
+# create two columns for charts
 
-st.header("")
-st.markdown("عناوين نتيجة البحث ")
-fig1 = px.histogram(data_frame=df, x="cleaned_title", width=600, height=400)
+
+st.markdown("Cleaned Title Chart")
+fig1 = px.bar(df, x="cleaned_title")
 st.write(fig1)
 
-st. markdown("""
-______________________________________________________________________________
-""")
 
-st.header("")
-st.markdown("اسماء المواقع لنتيجة البحث ")
-fig2 = px.histogram(data_frame=df[df['source_name'] != 0], x="source_name", width=600, height=400)
+st.markdown("Source Site Same Chart")
+fig2 = px.bar(df[df['surce_name'] != 0], x="surce_name")
 st.write(fig2)
  
 ########################################################
@@ -188,31 +160,36 @@ st.write(fig2)
 
 
 
-# # remove stop words:
+# remove stop words:
 stopwords_list = stopwords.words('arabic')
 
-# def remove_stopword_withtokenize(text):
-#   text_tokens = word_tokenize(text)
-#   tokens_without_sw = [word for word in text_tokens if not word in stopwords_list]
-#   return ' '.join(tokens_without_sw)
+def remove_stopword_withtokenize(text):
+  text_tokens = word_tokenize(text)
+  tokens_without_sw = [word for word in text_tokens if not word in stopwords_list]
+  return ' '.join(tokens_without_sw)
 
 
-# df['cleaned_title_without_stopword'] = [remove_stopword_withtokenize(text)for text in df['cleaned_title'] ] 
-# text = df['cleaned_title_without_stopword']
-# text = [''.join(sentence) for sentence in text]
-# text = ' '.join(text)
-# reshaped_text = arabic_reshaper.reshape(text)
-# arabic_text = get_display(reshaped_text)
-# wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="black").generate(arabic_text)
-# st.image(wordcloud.to_array())
+df['cleaned_title_without_stopword'] = [remove_stopword_withtokenize(text)for text in df['cleaned_title'] ] 
+text = df['cleaned_title_without_stopword']
+text = [''.join(sentence) for sentence in text]
+text = ' '.join(text)
+reshaped_text = arabic_reshaper.reshape(text)
+arabic_text = get_display(reshaped_text)
+wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="white").generate(arabic_text)
+#wordcloud.to_image()
+
+
+st.image(wordcloud.to_array())
 
 
 
 
 
-# stop TOKENIZERS_PARALLELISM
-
+import ClusterTransformer.ClusterTransformer as ctrans
+import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+
 cr=ctrans.ClusterTransformer()
 model_name='albert-base-v1'
 
@@ -235,74 +212,10 @@ kmeans_no_clusters=6
 
 #Declare the methods : model_inference,neighborhood_detection,kmeans_detection,convert_to_df and plot_cluster with associated hyperparameters
 embeddings=cr.model_inference(li_sentence,batch_size,model_name,max_seq_length,normalize_embeddings,convert_to_numpy)
-#output_dict=cr.neighborhood_detection(li_sentence,embeddings,cutoff_threshold,neighborhood_min_size)
+output_dict=cr.neighborhood_detection(li_sentence,embeddings,cutoff_threshold,neighborhood_min_size)
 output_kmeans_dict=cr.kmeans_detection(li_sentence,embeddings,kmeans_no_clusters,kmeans_max_iter,kmeans_random_state)
-#neighborhood_detection_df=cr.convert_to_df(output_dict)
+neighborhood_detection_df=cr.convert_to_df(output_dict)
 kmeans_df=cr.convert_to_df(output_kmeans_dict)
+print(f'DataFrame from neighborhood detection:\n {neighborhood_detection_df}')
+print(f'DataFrame from Kmeans detection:\n {kmeans_df}')
 
-
-
-
-
-
-###################WC_FOR_CLUSTER#############################
-
-def remove_stopword_withtokenize_for_clusters(text):
-  text_tokens = word_tokenize(text)
-  tokens_without_sw = [word for word in text_tokens if not word in stopwords_list]
-  return ' '.join(tokens_without_sw)
-def generate_wordcloud(df, cluster_num):
-
-  df_grouped_by_cluster = df[df['Cluster'] == cluster_num]
-  df_grouped_by_cluster['text_without_stopword'] = [remove_stopword_withtokenize_for_clusters(text) for text in df_grouped_by_cluster['Text'] ] 
-  
-  text = df_grouped_by_cluster['text_without_stopword']
-
-  text = [''.join(sentence) for sentence in text]
-  text = ' '.join(text)
-  reshaped_text = arabic_reshaper.reshape(text)
-  arabic_text = get_display(reshaped_text)
-  wordcloud = WordCloud(font_path = 'arial.ttf',width=700, height=300, background_color="white").generate(arabic_text)
-  return wordcloud
-
-########################WC_FOR_CLUSTER###################################
-
-# fined number of clusters
-kmeans_clusters_list = kmeans_df.Cluster.unique()
-#neighborhood_detection_clusters_list = neighborhood_detection_df.Cluster.unique()
-
-
-
-# cluster result in kmeans
-st. markdown("""
-____________________ تجميع عناوين نتائج البحث حسب تشابة سياقها __________________________________________________________
-""")
-# nsert containers laid out as side-by-side columns.
-col1, col2, col3 = st.columns(3)
-
-for  index , cluster_num in enumerate(kmeans_clusters_list):
-  # group df based on cluster filter :
-  wordcloud_result =generate_wordcloud(kmeans_df,cluster_num)
-   
-  new_index = index + 1 
-  if index == 1 :
-    with col1:
-        st.header(f'Topic {index} Words :\n ')
-        st.image(wordcloud_result.to_array())
-    st. markdown("""
-______________________________________________________________________________
-""")
-  if index == 2 :
-    with col1:
-        st.header(f'Topic {index} Words :\n ')
-        st.image(wordcloud_result.to_array())
-    st. markdown("""
-______________________________________________________________________________
-""")
-  if index == 3 :
-    with col1:
-        st.header(f'Topic {index} Words :\n ')
-        st.image(wordcloud_result.to_array())
-st. markdown("""
-__________________________* ** جميع الحقوق محفوظة@امل بن عيسى **____________________________________________________
-""")        
